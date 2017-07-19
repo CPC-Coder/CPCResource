@@ -1,0 +1,185 @@
+//
+//  PrefixHeader.pch
+//  
+//
+//  Created by 池鹏程 on 15/11/5.
+//  Copyright © 2015年 池鹏程. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+/*** 如果希望某些内容能拷贝到任何源代码文件(OC\C\C++等), 那么就不要写在#ifdef __OBJC__和#endif之间 ***/
+
+
+/***** 在#ifdef __OBJC__和#endif之间的内容, 只会拷贝到OC源代码文件中, 不会拷贝到其他语言的源代码文件中 *****/
+#ifdef __OBJC__
+
+
+/*** 分类 ***/
+#import "UIView+CPCExtension.h"
+#import "UIImage+CPCExtension.h"
+#import "UIImageView+CPCExtension.h"
+#import "UIViewController+CPCExtension.h"
+#import "UIViewController+CPCClickHeadImgV.h"
+//#import "UIViewController+DismissKeyboard.h"
+
+/*** baseView ***/
+#import "CPCTextField.h"
+#import "CPCTextView.h"
+
+
+/*** 工具类 ***/
+#import "CPCImageCropperViewController.h"//相册图片获取
+#import "CPCFileManager.h"//本地数据
+#import "CPCConst.h"//全局变量文件
+#import "CPCHelper.h"//全局助手
+#import "CPCNetworkingTool.h"//网络连接
+
+
+
+/*** 第三方库 ***/
+#import <AFNetworking.h>
+#import <SVProgressHUD.h>
+#import <UIImageView+WebCache.h>
+#import <IQKeyboardManager.h>
+#import <MJExtension.h>
+#import <MJRefresh.h>
+//#import <SBPickerSelector.h>
+//#import <MBProgressHUD.h>
+
+
+
+/*** 文件 ***/
+
+
+
+
+
+
+
+
+
+
+
+/*** 日志 ***/
+#ifdef DEBUG
+#define c_Log(...) NSLog(__VA_ARGS__)
+#else
+#define c_Log(...)
+#endif
+
+#define c_LogFunc c_Log(@"%s, line = %d", __FUNCTION__, __LINE__)
+
+
+
+/*** 测试log ***/
+#define c_CSNoReturn(condition) \
+if (condition) {\
+NSLog(@"%@",@"cpc测试成功");\
+}
+
+#define c_CSReturn(condition, msg, returnValue) \
+if (condition) {\
+NSLog(@"%@",msg);\
+return returnValue;\
+}
+
+/*** 颜色 ***/
+#define c_ColorA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
+#define c_Color(r, g, b) c_ColorA((r), (g), (b), 255)
+#define c_RandomColor c_Color(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
+#define c_AlphaRandomColor c_Color(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255),150)
+#define c_GrayColor(v) c_Color((v), (v), (v))
+
+/*** 设置常用颜色 ***/
+#define c_CommonGreen [UIColor colorWithRed:0.322 green:0.792 blue:0.482 alpha:1.00]
+#define c_CommonBlue c_Color(111, 182, 253)
+#define c_CommonBgColor [UIColor colorWithRed:0.322 green:0.792 blue:0.482 alpha:1.00]
+#define c_CommonBgGray c_GrayColor(241)
+
+#define c_hexColor(colorV) [UIColor colorWithHexColorString:@#colorV]
+#define c_hexColorAlpha(colorV,a) [UIColor colorWithHexColorString:@#colorV alpha:a];
+
+
+
+/*** 输入框常用属性设置 ***/
+#define c_textColor  [UIColor blackColor]
+#define c_textPlaceholdStartColor c_CommonGreen
+#define c_textPlaceholdColor [UIColor grayColor]
+#define c_textFont [UIFont systemFontOfSize:14]
+
+
+/*** 其他 ***/
+#define c_ScreenW [UIScreen mainScreen].bounds.size.width
+#define c_ScreenH [UIScreen mainScreen].bounds.size.height
+#define c_ViewW self.view.bounds.size.width
+#define c_ViewH self.view.bounds.size.height
+
+#define c_UserDefaults  [NSUserDefaults standardUserDefaults]
+#define c_Application [UIApplication sharedApplication]
+#define c_NotificationCenter  [NSNotificationCenter defaultCenter]
+
+
+/*** 屏幕适配 ***/
+#define c_Scales    ([UIScreen mainScreen].bounds.size.height)/480.0f
+#define c_iPhone4    ([UIScreen mainScreen].bounds.size.height==480.0f)
+#define c_iPhone5S    ([UIScreen mainScreen].bounds.size.height==568.0f)
+#define c_iPhone6    ([UIScreen mainScreen].bounds.size.height==667.0f)
+#define c_iPhone6P    ([UIScreen mainScreen].bounds.size.height==736.0f)
+#define c_iPadMini    ([UIScreen mainScreen].bounds.size.height==512.0f)
+#define c_iPad    ([UIScreen mainScreen].bounds.size.height==1024.0f)
+
+/***弱引用 强引用**/
+#define c_Weak(type)  __weak typeof(type) weak##type = type;
+#define c_Strong(type)  __strong typeof(type) type = weak##type;
+
+
+
+
+/*** 当前系统版本判断 ***/
+#define iOS(version) ([UIDevice currentDevice].systemVersion.doubleValue >= (version))
+
+
+
+/*** 将服务器返回的数据写入plist ***/
+#define c_WriteToPlist(data, filename) [data writeToFile:[NSString stringWithFormat:@"/Users/chipengcheng/Desktop/%@.plist", filename] atomically:YES];
+
+
+
+
+
+/****由角度转换弧度 由弧度转换角度  *****/
+
+#define c_DegreesToRadian(x) (M_PI * (x) / 180.0)
+#define c_RadianToDegrees(radian) (radian*180.0)/(M_PI)
+
+
+/****沙盒目录文件****/
+
+//获取temp
+#define c_PathTemp NSTemporaryDirectory()
+
+//获取沙盒 Document
+#define c_PathDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+
+//获取沙盒 Cache
+#define c_PathCache [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
+
+/****CPCFileManager和清理缓存的目标目录****/
+#define c_CustomCacheFile [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"Custom"]
+
+
+
+
+
+
+
+
+
+
+
+#endif
+/***** 在#ifdef __OBJC__和#endif之间的内容, 只会拷贝到OC源代码文件中, 不会拷贝到其他语言的源代码文件中 *****/
+
+#endif
